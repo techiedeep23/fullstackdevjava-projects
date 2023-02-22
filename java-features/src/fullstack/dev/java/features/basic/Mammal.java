@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Mammal extends Animal {
 
+	//Encapsulation
 	private List<String> characteristics;
 	private Boolean produceMilk;
 	private String color;
@@ -38,6 +39,7 @@ public class Mammal extends Animal {
 		return color;
 	}
 	
+	//Polymorphism
 	public void type(Boolean hasBackbone) {
 
 		if (hasBackbone)

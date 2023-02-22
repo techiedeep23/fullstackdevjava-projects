@@ -16,6 +16,7 @@ public class Main {
 
 		animal.type(true);
 
+		//Mammal object created using overloaded constructor
 		Mammal mammal = new Mammal(Arrays.asList("Warm Blooded", "Hair and Fur"), true);
 
 		System.out.println(mammal.getProduceMilk());
