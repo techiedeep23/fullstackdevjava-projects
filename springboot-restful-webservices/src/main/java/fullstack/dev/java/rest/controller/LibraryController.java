@@ -118,6 +118,17 @@ public class LibraryController {
 	@PutMapping(path="/add",consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> deleteBook(@RequestBody Book book) {
 		
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		try {
+			mapper.writeValue(Paths.get("book.json").toFile(), book);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
 		return new ResponseEntity<Book>(HttpStatus.OK);
 	}
 
