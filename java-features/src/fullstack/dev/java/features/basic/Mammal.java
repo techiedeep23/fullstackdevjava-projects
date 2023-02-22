@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Mammal extends Animal {
 
-	//Encapsulation
+	// Encapsulation
 	private List<String> characteristics;
 	private Boolean produceMilk;
 	private String color;
