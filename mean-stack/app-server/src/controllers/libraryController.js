@@ -1,9 +1,10 @@
 const asyncHandler = require("express-async-handler");
+const httpStatus = require('http-status-codes');
 const BookModel = require('../db/schemas/bookSchema');
 
 const getBooks = asyncHandler(async(req,res) => {
     const books = await BookModel.find();
-    res.status(200).send(books)
+    res.status(httpStatus.StatusCodes.OK).send(books)
 }) ;
 
 const getBookByName = asyncHandler(async(req,res) => {
@@ -13,18 +14,18 @@ const getBookByName = asyncHandler(async(req,res) => {
     var bookname = req.params.name;
 
     if(!bookname){
-        res.status(400);
+        res.status(httpStatus.StatusCodes.BAD_REQUEST);
         console.log("inside if ");
         throw new Error("Invalid Request !");
     }
     const book = await BookModel.find({ "name": {'$regex': bookname}});
 
     if(!book) {
-        res.status(404);
+        res.status(httpStatus.StatusCodes.NOT_FOUND);
 
         throw new Error(" No book found");
     }
-    res.status(200).send(book)
+    res.status(httpStatus.StatusCodes.OK).send(book)
 }) ;
 
 
@@ -33,7 +34,7 @@ const addBook = asyncHandler(async(req,res) => {
     const { name, author, domain } = req.body;
 
     if (!name || !author || !domain) {
-        res.status(400);
+        res.status(httpStatus.StatusCodes.BAD_REQUEST);
         throw new Error("Invalid Request !");
       }
       const book = await BookModel.create({
@@ -41,7 +42,7 @@ const addBook = asyncHandler(async(req,res) => {
         author,
         domain,
       });
-    res.status(200).send("Book added")
+    res.status(httpStatus.StatusCodes.OK).send("Book added")
 }) ;
 
 module.exports = {getBooks,addBook,getBookByName};
