@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -65,7 +66,7 @@ public class LibraryController {
 				}
 			}
 		} catch (IOException e) {
-
+			
 			log.error("Failed to get the book ::: " + e.getMessage());
 
 			return new ResponseEntity<Book>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -91,7 +92,7 @@ public class LibraryController {
 			for (Book book : bookList) {
 				if (language.equalsIgnoreCase(book.getLanguage())) {
 					bookList.remove(book);
-					mapper.writeValue(Paths.get("output.json").toFile(), bookList);
+					mapper.writeValue(Paths.get("delete.json").toFile(), bookList);
 					return new ResponseEntity<Book>(HttpStatus.OK);
 				}
 
@@ -119,10 +120,42 @@ public class LibraryController {
 	public ResponseEntity<?> deleteBook(@RequestBody Book book) {
 		
 		
-		ObjectMapper mapper = new ObjectMapper();
+		if(!Optional.ofNullable(book).isPresent())
+			return new ResponseEntity<String>("Missing Request Data",HttpStatus.BAD_REQUEST);
 		
 		try {
-			mapper.writeValue(Paths.get("book.json").toFile(), book);
+			ObjectMapper mapper = new ObjectMapper();
+			mapper.writeValue(Paths.get("put.json").toFile(), book);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+		return new ResponseEntity<Book>(HttpStatus.OK);
+	}
+	
+	@PostMapping(path="/update",consumes= MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> updateBook(@RequestBody Book book) {
+		
+		if(!Optional.ofNullable(book).isPresent())
+			return new ResponseEntity<String>("Missing Request Data",HttpStatus.BAD_REQUEST);
+		
+		try {
+			File dataFile = (new ClassPathResource("db.json")).getFile();
+
+			ObjectMapper mapper = new ObjectMapper();
+
+			List<Book> bookList = mapper.readValue(dataFile, new TypeReference<List<Book>>() {
+			});
+			
+			for(Book row : bookList) {
+				
+				if(row.getLanguage().equalsIgnoreCase(book.getLanguage())) {
+					
+					mapper.writeValue(Paths.get("post.json").toFile(), book);
+				}
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
