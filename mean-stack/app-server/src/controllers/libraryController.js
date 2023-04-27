@@ -42,7 +42,7 @@ const addBook = asyncHandler(async(req,res) => {
         author,
         domain,
       });
-    res.status(httpStatus.StatusCodes.OK).send("Book added")
+    res.status(httpStatus.StatusCodes.CREATED).send("Book added")
 }) ;
 
 module.exports = {getBooks,addBook,getBookByName};

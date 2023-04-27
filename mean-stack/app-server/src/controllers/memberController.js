@@ -42,7 +42,7 @@ const addMember = asyncHandler(async(req,res) => {
         email,
         role,
       });
-    res.status(httpStatus.StatusCodes.OK).send("Member added")
+    res.status(httpStatus.StatusCodes.CREATED).send("Member added")
 }) ;
 
 module.exports = {getMembers,addMember,getMemberByName};
