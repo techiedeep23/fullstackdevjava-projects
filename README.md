@@ -8,7 +8,7 @@
   - SpringBoot
   - Spring Security
   - REST API
-  - Node JS | Express | Axios
+  - Node JS | Express | API
   - Angular
   - Vue JS
   - JUnit5 | Mockito
